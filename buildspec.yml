@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo "Running pre_build stage..."
+  build:
+    commands:
+      - echo "Building application..."
+      - mvn clean compile package
+  post_build:
+    commands:
+      - echo "Moving files to upload..."
+      - mv target/*.war ./ROOT.war
+artifacts:
+  files:
+    - ROOT.war
