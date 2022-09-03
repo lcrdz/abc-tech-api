@@ -7,6 +7,10 @@ phases:
     commands:
       - echo "Building application..."
       - mvn clean compile war:war
+  quality:
+    commands:
+      - echo "Testing application..."
+      - mvn test
   post_build:
     commands:
       - echo "Moving files to upload..."
