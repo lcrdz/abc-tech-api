@@ -5,12 +5,8 @@ phases:
       - echo "Running pre_build stage..."
   build:
     commands:
-      - echo "Building application..."
-      - mvn clean compile war:war
-  quality:
-    commands:
-      - echo "Testing application..."
-      - mvn test
+      - echo "Test and building application..."
+      - mvn clean test compile war:war
   post_build:
     commands:
       - echo "Moving files to upload..."
