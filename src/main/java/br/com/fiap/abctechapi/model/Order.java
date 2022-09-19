@@ -42,4 +42,12 @@ public class Order {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "end_order_location_id", foreignKey = @ForeignKey(name = "FK_end_order_id"))
     private OrderLocation end;
+
+    public boolean hasAssists() {
+        return assists.size() > 0;
+    }
+
+    public boolean exceedsAssistLimit() {
+        return assists.size() > 15;
+    }
 }
