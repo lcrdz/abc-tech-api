@@ -12,7 +12,9 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
+    show-sql: false
+
 springdoc:
   api-docs:
     path: /api-docs
