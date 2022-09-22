@@ -1,5 +1,7 @@
 package br.com.fiap.abctechapi.service.impl;
 
+import br.com.fiap.abctechapi.handler.exception.MaxAssistException;
+import br.com.fiap.abctechapi.handler.exception.MinAssistRequiredException;
 import br.com.fiap.abctechapi.model.Assistance;
 import br.com.fiap.abctechapi.model.Order;
 import br.com.fiap.abctechapi.repository.AssistanceRepository;
@@ -17,10 +19,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private AssistanceRepository assistanceRepository;
 
-    public OrderServiceImpl(
-            @Autowired OrderRepository orderRepository,
-            @Autowired AssistanceRepository assistanceRepository
-    ) {
+    public OrderServiceImpl(@Autowired OrderRepository orderRepository, @Autowired AssistanceRepository assistanceRepository) {
         this.orderRepository = orderRepository;
         this.assistanceRepository = assistanceRepository;
     }
@@ -35,11 +34,13 @@ public class OrderServiceImpl implements OrderService {
 
         order.setAssists(assists);
 
-        if (order.hasAssists() && !order.exceedsAssistLimit()) {
-            orderRepository.save(order);
-        } else {
-            throw new Exception();
+        if (!order.hasAssists()) {
+            throw new MinAssistRequiredException("Invalid Assists", "Required min 1 assist to create order.");
+        } else if (order.exceedsAssistLimit()) {
+            throw new MaxAssistException("Invalid Assists", "Allowed max of 15 assist per order.");
         }
+
+        orderRepository.save(order);
     }
 
     @Override
