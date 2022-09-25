@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private OrderRepository orderRepository;
-    private AssistanceRepository assistanceRepository;
+    private final OrderRepository orderRepository;
+    private final AssistanceRepository assistanceRepository;
 
     public OrderServiceImpl(@Autowired OrderRepository orderRepository, @Autowired AssistanceRepository assistanceRepository) {
         this.orderRepository = orderRepository;
@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void saveOrder(Order order, List<Long> assistanceIds) throws Exception {
+    public void saveOrder(Order order, List<Long> assistanceIds) {
         ArrayList<Assistance> assists = new ArrayList<>();
         assistanceIds.forEach(id -> {
             Assistance assistance = assistanceRepository.findById(id).orElseThrow();
@@ -45,6 +45,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> listOrderByOperator(Long operatorId) {
-        return null;
+        return orderRepository.findAllByOperatorId(operatorId);
     }
 }

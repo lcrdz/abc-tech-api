@@ -11,7 +11,7 @@ import java.util.List;
 public class AssistanceApplicationImpl implements AssistanceApplication {
 
     private final AssistanceService service;
-    
+
     public AssistanceApplicationImpl(AssistanceService service) {
         this.service = service;
     }

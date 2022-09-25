@@ -8,10 +8,12 @@ import br.com.fiap.abctechapi.model.OrderLocation;
 import br.com.fiap.abctechapi.service.OrderService;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class OrderApplicationImpl implements OrderApplication {
 
-    private OrderService service;
+    private final OrderService service;
 
     public OrderApplicationImpl(OrderService service) {
         this.service = service;
@@ -25,6 +27,11 @@ public class OrderApplicationImpl implements OrderApplication {
         order.setStart(getOrderLocationFromDTO(orderDTO.getStart()));
         order.setEnd(getOrderLocationFromDTO(orderDTO.getEnd()));
         service.saveOrder(order, orderDTO.getAssists());
+    }
+
+    @Override
+    public List<Order> getOrdersByOperatorId(Long operatorId) {
+        return service.listOrderByOperator(operatorId);
     }
 
     private OrderLocation getOrderLocationFromDTO(OrderLocationDTO orderLocationDTO) {
