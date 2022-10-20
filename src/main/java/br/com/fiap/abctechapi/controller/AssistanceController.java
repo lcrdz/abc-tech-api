@@ -1,7 +1,7 @@
 package br.com.fiap.abctechapi.controller;
 
 import br.com.fiap.abctechapi.application.AssistanceApplication;
-import br.com.fiap.abctechapi.model.Assistance;
+import br.com.fiap.abctechapi.application.dto.AssistanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,8 @@ public class AssistanceController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Assistance>> getAssists() {
-        List<Assistance> assists = assistanceApplication.getAssists();
+    public ResponseEntity<List<AssistanceDTO>> getAssists() {
+        List<AssistanceDTO> assists = assistanceApplication.getAssists();
         return ResponseEntity.ok(assists);
     }
 }

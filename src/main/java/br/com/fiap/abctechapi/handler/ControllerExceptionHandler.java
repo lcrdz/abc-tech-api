@@ -13,12 +13,12 @@ import java.util.Date;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(MinAssistRequiredException.class)
-    public ResponseEntity<ErrorMessageResponse> errorMinAssistRequired(MinAssistRequiredException exception) {
+    public ResponseEntity<ErrorMessageResponse> errorMaxAssist(MinAssistRequiredException exception) {
         return getErrorMessageResponseEntity(exception, exception.getDescription());
     }
 
     @ExceptionHandler(MaxAssistException.class)
-    public ResponseEntity<ErrorMessageResponse> errorMinAssistRequired(MaxAssistException exception) {
+    public ResponseEntity<ErrorMessageResponse> errorMaxAssist(MaxAssistException exception) {
         return getErrorMessageResponseEntity(exception, exception.getDescription());
     }
 
