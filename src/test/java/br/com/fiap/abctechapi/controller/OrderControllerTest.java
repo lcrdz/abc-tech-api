@@ -1,4 +1,4 @@
-package br.com.fiap.abctechapi.application.impl;
+package br.com.fiap.abctechapi.controller;
 
 import br.com.fiap.abctechapi.application.OrderApplication;
 import br.com.fiap.abctechapi.application.dto.OrderDTO;
@@ -6,7 +6,6 @@ import br.com.fiap.abctechapi.application.dto.OrderLocationDTO;
 import br.com.fiap.abctechapi.model.Assistance;
 import br.com.fiap.abctechapi.model.Order;
 import br.com.fiap.abctechapi.model.OrderLocation;
-import br.com.fiap.abctechapi.service.OrderService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,22 +13,25 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Date;
 import java.util.List;
+
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-class OrderApplicationImplTest {
+class OrderControllerTest {
 
     @Mock
-    private OrderService service;
-
     private OrderApplication application;
+
+    private OrderController controller;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        application = new OrderApplicationImpl(service);
+        controller = new OrderController(application);
     }
 
     @DisplayName("Create order :: success scenario")
@@ -59,24 +61,26 @@ class OrderApplicationImplTest {
         order.setStart(location);
         order.setEnd(location);
 
-        application.createOrder(dto);
+        ResponseEntity result = controller.createOrder(dto);
 
-        verify(service, times(1)).saveOrder(order, dto.getAssists());
+        verify(application, times(1)).createOrder(dto);
 
+        Assertions.assertEquals(200, result.getStatusCode().value());
     }
 
-    @DisplayName("Get orders by operator id :: success scenario")
+    @DisplayName("Orders by operator :: success scenario")
     @Test
-    public void orders_by_operator_id_success() {
+    public void orders_by_operator_success() {
         Order orderMock = mock(Order.class);
         List<Order> orders = List.of(orderMock);
 
-        when(service.listOrderByOperator(1L)).thenReturn(orders);
+        when(application.getOrdersByOperatorId(1L)).thenReturn(orders);
 
-        List<Order> result = application.getOrdersByOperatorId(1L);
+        ResponseEntity<List<Order>> result = controller.getOrdersByOperatorId(1L);
 
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(result.get(0), orders.get(0));
+        Assertions.assertEquals(200, result.getStatusCode().value());
+        Assertions.assertEquals(1, result.getBody().size());
     }
+
 
 }
